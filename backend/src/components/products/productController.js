@@ -22,7 +22,7 @@ export async function searchProduct(req, res) {
         const listOfProduct = await models.Products.findAndCountAll({
             include: [{ model: models.Categories }],
             where: {
-                // productName: { [Op.like]: '%' + keywords + '%' } 
+                // productName: { [Op.like]: '%' + keywords + '%' }
                 [Op.and]: [{ productName: { [Op.like]: '%' + keywords + '%' } }, { categoryId: categoryIdNumber }]
             },
             order: [

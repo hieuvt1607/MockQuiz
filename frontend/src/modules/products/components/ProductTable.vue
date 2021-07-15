@@ -267,7 +267,7 @@ export default {
                 if (this.options.page > this.paginationLength) {
                     this.options.page = this.paginationLength; // khi so luong item moi page thay doi,
                     // neu page hien tai lon' hon so luong page
-                    // thi doi page hien tai thanh page cuoi cung de khong bi empty 
+                    // thi doi page hien tai thanh page cuoi cung de khong bi empty
                 }
                 if (!this.searching) {
                     this.initialize(this.options.page, val, this.sortConditions);
