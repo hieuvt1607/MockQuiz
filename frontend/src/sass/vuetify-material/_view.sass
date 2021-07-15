@@ -1,0 +1,242 @@
+.v-content__wrap
+  .container--fluid
+    padding-left: 30px
+    padding-right: 30px
+
+.v-application .headline
+  font-size: 25px !important
+  padding-bottom: 0
+
+.v-application .black--text
+  color: #333 !important
+
+.v-application .small
+  font-weight: 300
+  line-height: 2rem
+  small
+    font-weight: 400
+
+@media( max-width: 960px )
+  .v-content__wrap
+    .container--fluid
+      padding-left: 15px
+      padding-right: 15px
+
+.upload-image
+  position: relative
+  max-width: 250px
+  width: 100%
+  height: 250px
+  display: flex
+  margin: 5px auto 0 auto
+  &_v-input
+    position: absolute
+    width: 100%
+    top: 0
+    height: 100%
+    margin: 0
+    padding: 0
+    .v-input__prepend-outer, .v-input__append-inner
+      display: none
+  .v-input__control
+    height: 100%
+    position: relative
+    .v-input__slot
+      opacity: 0
+    .v-file-input__text
+      height: 220px
+      cursor: pointer
+    .v-text-field__details
+      position: absolute
+      border: 0
+      top: calc(100% + 5px)
+
+.style-datePicker
+  position: relative
+  display: flex
+  flex-direction: column
+  .style-datePicker_title
+    font-size: $font-size-root - 3
+    text-align: left
+  .mx-input-wrapper
+    input::placeholder
+      opacity: .5
+  .mx-datepicker
+    width: 100%
+    position: relative
+    &:before
+      content: ''
+      position: absolute
+      width: 100%
+      height: 2px
+      left: 0
+      bottom: 0px
+      z-index: 9
+      -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+      transform: scaleX(0)
+  .mx-input
+    border-top: 0 !important
+    border-left: none
+    border-right: none
+    border-radius: 0
+    height: auto
+    margin-top: -2px
+    padding-left: 2px
+    background-color: transparent
+    &:hover,&:focus
+      border-color: #ccc
+  &.active
+    .style-datePicker_title
+      -webkit-transform: translateY(0px) translateX(-35px) scale(0.75)
+      transform: translateY(0px) translateX(-35px) scale(0.75)
+      -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+      transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+    .mx-datepicker
+      &:before
+        -webkit-transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+        transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1)
+        transform: scaleX(1)
+        background-color: #e91e63
+
+.group-input
+  position: relative
+  ul
+    list-style: none
+    padding: 0 !important
+    .list-input
+      position: relative
+    .group-input-close
+      position: absolute
+      right: -20px
+      top: 15px
+  .group-input-add
+    position: absolute
+    top: 5px
+    right: 0
+    &.m--icon-add
+      position: relative
+      top: 0
+.w-100
+  width: 100%
+.bg-transparent
+  background: transparent !important
+
+ul
+  padding: 0 !important
+  li
+    list-style: none
+
+.totalHour
+  li
+    display: inline-block
+    min-width: 120px
+    margin-right: 10px
+    &:last-child
+      margin-right: 0
+    label
+      margin-right: 5px
+
+.notification
+  border-bottom: 1px solid #d9d9d9
+  padding-bottom: 10px
+  .notification-item
+    display: inline-block
+    span
+      padding: 0px 5px
+    &.notification-item--des
+      display: block
+
+.notification-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 0px 23px
+
+.notification-height
+  max-height: 395px
+  overflow: hidden
+.v-application--wrap
+  #pages
+    padding-top: 0 !important
+
+.language--link
+  cursor: pointer
+  padding: 10px
+  span
+    color: #333333
+  &:hover
+    background: $c-secondary
+    span
+      color: #fff
+.theme--dark.v-list
+  .language--link
+    span
+      color: #fff
+
+.chartist-tooltip
+  position: absolute
+  background: rgba(0,0,0,0.6)
+  color: white
+  padding: 0px 10px
+  border-radius: 5px
+  display: flex
+  .chartist-tooltip-meta
+    margin-right: 5px
+    white-space: nowrap
+.chart-title
+  &.chart-title--bar
+    position: absolute
+    top: 12px
+    left: 16px
+    z-index: 9
+.chartist-tooltip
+  z-index: 1
+  font-family: $font-family-base
+  visibility: hidden
+  &.tooltip-show
+    visibility: visible
+svg:not(:root)
+  overflow: visible !important
+.v-expansion-panel:before
+  box-shadow: none
+.v-card
+  box-shadow: none
+
+// style range picker
+.s-datepicker-range
+  display: flex
+  flex-direction: column
+  position: relative
+  .daterangepicker select.monthselect
+    margin-right: -5px
+  label
+    position: absolute
+    top: -14px
+    font-size: 11px
+  .daterangepicker
+    td
+      &:hover, &.active, &.active:hover
+        color: #fff
+        background: $bg-primary
+    .ranges
+      li
+        &:focus
+          outline: none
+        &.active
+          background: $bg-primary
+  .vue-daterange-picker .reportrange-text
+    border-top: 0px
+    border-right: 0px
+    border-left: 0px
+    padding: 2px 10px 2px 0px
+    height: 25px
+    position: relative
+    >div:first-child
+      height: 100%
+  .cancelBtn
+    color: $bg-primary
+  .applyBtn
+    color: $bg-secondary
+.none-chart
+  opacity: 0

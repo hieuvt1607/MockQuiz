@@ -1,0 +1,68 @@
+.v-data-table td
+  font-weight: 300
+  padding: 12px 8px
+
+.v-data-table table thead tr th
+  font-weight: 300
+  font-size: 17px
+  padding: 0px 8px
+
+.v-data-table table tbody tr td .v-btn
+  margin-right: 0px !important
+
+.v-data-table .v-data-table-header__sort-badge
+  font-size: 10px
+
+.v-data-table.theme--dark
+  tr th
+    color: #fff !important
+
+.theme--light
+  .v-data-table table thead tr th
+    color: #333
+
+.table-layout
+  text-align: center
+  th
+    text-align: center !important
+    min-width: 100px
+    &.th-id
+      width: 50px
+.table-layout tbody tr
+  height: 80px
+  &:hover
+    background: rgba(0, 0, 0, 0.11) !important
+
+/* Table Border */
+
+.v-data-table
+  &.border-table
+    table
+      thead, tbody
+        th, td
+          &:not(:last-child)
+            border-right: thin solid rgba(0, 0, 0, 0.12)
+
+.border-right-none
+  border-right: none !important
+
+.table-second
+  border: 1px solid #d2d2d2
+  border-bottom: 0
+  .table-second-th
+    font-size: $font-size-root
+    font-weight: bold
+    text-align: center !important
+    border: 1px solid #d2d2d2
+    border-top: none
+    border-left: none
+    min-width: 100px
+    &.th-id
+      min-width: 50px
+  .table-second-td
+    text-align: center
+    border: 1px solid #d2d2d2
+    border-top: 0
+    border-left: 0
+    &:last-child
+      border-right: 0

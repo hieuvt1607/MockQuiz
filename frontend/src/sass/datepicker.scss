@@ -1,0 +1,11 @@
+
+
+$input-border-color: rgba(0, 0, 0, 0.38);
+
+@import '~vue2-datepicker/scss/index.scss';
+
+.wrapper-input {
+    .#{$namespace}-input {
+        height: 40px;
+    }
+}

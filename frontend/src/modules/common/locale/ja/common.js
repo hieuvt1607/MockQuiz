@@ -1,0 +1,62 @@
+export default {
+    language: {
+        english: 'English',
+        japan: '日本語',
+    },
+    logout: 'ログアウト',
+    somethingWrong: '問題が発生しました。もう一度お試しください',
+    validation: {
+        number: '半角数字で入力してください',
+        max: '{length}文字以内で入力してください',
+        date: {
+            min: '{field}は{value}以降の日付を入力してください',
+            max: '{field}の入力はできません',
+        },
+    },
+    action: 'アクション',
+    required: '*',
+    langDateTime: {
+        formatLocale: {
+            monthsShort: [
+                '1月',
+                '2月',
+                '3月',
+                '4月',
+                '5月',
+                '6月',
+                '7月',
+                '8月',
+                '9月',
+                '10月',
+                '11月',
+                '12月',
+            ],
+        },
+        days: ['日', '月', '火', '水', '木', '金', '土'],
+        months: [
+            '1月',
+            '2月',
+            '3月',
+            '4月',
+            '5月',
+            '6月',
+            '7月',
+            '8月',
+            '9月',
+            '10月',
+            '11月',
+            '12月',
+        ],
+    },
+    button: {
+        create: '作成',
+        delete: '削除',
+        cancel: 'キャンセル',
+    },
+    close: '閉じる',
+    confirm: '確認',
+    currentWeek: '今週',
+    message: {
+        noResult: 'インタラクションのデータがありません。',
+    },
+};

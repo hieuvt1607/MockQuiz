@@ -1,0 +1,104 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes borderSuccessFadeIn{
+    0%{
+        border-color: grey;
+    }
+    100%{
+        border-color: blue;
+    }
+}
+
+@keyframes borderErrorFadeIn {
+    0%{
+        border-color: blue;
+    }
+    100%{
+        border-color: red;
+    }
+}
+
+@keyframes expandAnimation {
+    0%{
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+    100%{
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes notificationAnimation{
+    0%{
+        top: 4.9rem;
+        opacity: 0;
+    }
+
+    100%{
+        top: 3.9rem;
+        opacity: 1;
+    }
+}
+
+@keyframes accountAnimation{
+    0%{
+        top: 5.6rem;
+        opacity: 0;
+    }
+
+    100%{
+        top: 4.6rem;
+        opacity: 1;
+    }
+}
+
+@keyframes waitThenFadeInForBackdrop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes waitThenFadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.h-slide-enter {
+    transform: translate(100%, 0);
+}
+
+.h-slide-enter-to {
+    transition: all .3s ease-out;
+    transform: translate(0, 0);
+}
+
+.v-slide-enter {
+    transform: translate(0, 100%);
+}
+
+.v-slide-enter-to {
+    transition: all .3s ease-out;
+    transform: translate(0, 0);
+}

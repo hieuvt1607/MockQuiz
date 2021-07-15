@@ -1,0 +1,59 @@
+$font-size-root: 14px;
+$sheet-border-radius: 4px;
+$list-item-title-font-size: 0.929rem;
+$list-item-dense-title-font-size: 0.929rem;
+$list-item-dense-title-font-weight: initial;
+$fab-icon-sizes: ( small: 20 );
+$btn-font-sizes: ( default: 1rem, large: 1rem );
+$btn-sizes: ( default: 41, large: 54 );
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$card-text-font-size: 16px;
+$font-family-base: "Roboto", sans-serif !important;
+$c-primary: #e91e63;
+$c-secondary: #9c27b0;
+$bg-primary: #e91e63;
+$bg-secondary: #4caf50;
+
+$headings: (
+  'h1': (
+    'size': 3.3125rem,
+    'line-height': 1.15em
+  ),
+  'h2': (
+    'size': 2.25rem,
+    'line-height': 1.5em
+  ),
+  'h3': (
+    'size': 1.5625rem,
+    'line-height': 1.4em
+  ),
+  'h4': (
+    'size': 1.125rem,
+    'line-height': 1.4em
+  ),
+  'h5': ( 'size': 1.0625rem ),
+  'h6': ( 'size': .75rem ),
+  'subtitle-2': ( 'size': 1rem ),
+  'overline': ( 'letter-spacing': 0 )
+);
+// z-index management
+$zIndex: (
+        zIndex1: 1,
+        dot: 10,
+        workOrderRight: 20,
+        table: 30,
+        tableHeader: 40,
+        input: 50,
+        calendar: 60,
+        select: 80,
+        header: 100,
+        scheduleTypeDropdown: 110,
+        navigationDrawer: 200,
+        notification: 300,
+        sidebar: 200,
+        accountMenu: 600,
+        tooltip: 800,
+        loadingOverlay: 1000,
+        flashMessage: 5000,
+);
