@@ -2,7 +2,7 @@
     <div>
         <v-data-table
             :headers="headers"
-            :items="products"
+            :items="categories"
             hide-default-footer
             :options="options"
             sort-by="productName"
@@ -16,7 +16,7 @@
                     </v-toolbar-title>
                     <v-divider class="mx-4" inset vertical />
                     <v-row>
-                        <v-col cols="12" sm="5">
+                        <v-col cols="12" sm="10">
                             <v-text-field
                                 v-model="keywords"
                                 color="purple darken-2"
@@ -24,19 +24,8 @@
                                 required
                             />
                         </v-col>
-                        <v-col cols="12" sm="5">
-                            <v-select
-                                v-model="searchCateValue"
-                                :items="categories"
-                                item-text="categoryName"
-                                item-value="id"
-                                color="pink"
-                                :label="$t('products.product.searchBar.productSelectCate')"
-                                required
-                            />
-                        </v-col>
                         <v-col cols="12" sm="2">
-                            <v-btn icon color="purple darken-2" @click="searchProduct()">
+                            <v-btn icon color="purple darken-2" @click="searchCategories()">
                                 <v-icon>mdi-magnify</v-icon>
                             </v-btn>
                         </v-col>
@@ -56,76 +45,11 @@
                             <v-card-text>
                                 <v-container>
                                     <v-row>
-                                        <v-col cols="12" sm="6" md="6">
+                                        <v-col cols="12" sm="6" md="4">
                                             <v-text-field
-                                                v-model="editedItem.productName"
+                                                v-model="editedItem.categoryName"
                                                 :label="
                                                     $t('products.product.formData.productTextField')
-                                                "
-                                            />
-                                        </v-col>
-                                        <v-col class="d-flex" cols="12" sm="6" md="6">
-                                            <v-select
-                                                v-model="editedItem.categoryId"
-                                                :items="categories"
-                                                item-text="categoryName"
-                                                item-value="id"
-                                                filled
-                                                :label="
-                                                    $t(
-                                                        'products.product.formData.productSelectCate',
-                                                    )
-                                                "
-                                            />
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col cols="12" sm="6" md="6">
-                                            <v-text-field
-                                                v-model="editedItem.price"
-                                                :label="
-                                                    $t('products.product.formData.productPrice')
-                                                "
-                                            />
-                                        </v-col>
-                                        <v-col cols="12" sm="6" md="6">
-                                            <v-checkbox
-                                                v-model="editedItem.isAvailable"
-                                                :label="
-                                                    $t(
-                                                        'products.product.formData.productIsAvailable',
-                                                    )
-                                                "
-                                            />
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col cols="12" sm="6" md="12">
-                                            <v-file-input
-                                                accept="image/png, image/jpeg, image/bmp"
-                                                :placeholder="
-                                                    $t(
-                                                        'products.product.formData.productImagePlaceHolder',
-                                                    )
-                                                "
-                                                prepend-icon="mdi-camera"
-                                                :label="
-                                                    $t('products.product.formData.productImage')
-                                                "
-                                                @change="selectProductImage"
-                                            />
-                                        </v-col>
-                                    </v-row>
-                                    <v-row>
-                                        <v-col class="d-flex" cols="12" sm="6" md="12">
-                                            <v-textarea
-                                                outlined
-                                                v-model="editedItem.descriptions"
-                                                name="input-7-4"
-                                                :label="
-                                                    $t(
-                                                        'products.product.formData.productDescriptions',
-                                                    )
                                                 "
                                             />
                                         </v-col>
@@ -198,15 +122,13 @@
 </template>
 <script>
 import '../../../plugins/lodash';
-import { sortTypes } from '../constants/index';
+// import { sortTypes } from '../constants/index';
 import {
-    getProducts,
     getCategories,
-    createNewProduct,
-    updateProduct,
-    deleteProduct,
-    searchProduct,
-    testimg,
+    createNewCategory,
+    updateCategory,
+    deleteCategory,
+    searchCategories,
 } from '../services/index';
 
 export default {
@@ -226,12 +148,7 @@ export default {
                 },
                 {
                     text: this.$t('products.product.headers[1]'),
-                    value: 'productName',
-                },
-                {
-                    text: this.$t('products.product.headers[2]'),
-                    value: 'Category.categoryName',
-                    sortable: true,
+                    value: 'categoryName',
                 },
                 {
                     text: this.$t('products.product.headers[3]'),
@@ -239,43 +156,26 @@ export default {
                     sortable: false,
                 },
             ],
-            products: [],
             categories: [],
-            searchCateValue: 3,
             keywords: '',
             editedIndex: -1,
             editedItem: {
                 id: null,
-                categoryId: null,
-                productName: '',
-                Category: {
-                    id: null,
-                    categoryName: '',
-                },
-                price: null,
-                descriptions: '',
-                image: '',
-                isAvailable: null,
-                numOfSold: null,
+                categoryName: '',
             },
             defaultItem: {
                 id: null,
-                categoryId: null,
-                productName: '',
-                Category: {
-                    id: null,
-                    categoryName: '',
-                },
+                categoryName: '',
             },
             originalItem: {},
-            productCount: 0,
+            categoryCount: 0,
             searching: false,
             options: {
-                page: 2,
+                page: 1,
                 itemsPerPage: 10,
             },
             sortConditions: {
-                sortBy: 'productName',
+                sortBy: 'categoryName',
                 sortTypes: 'ASC',
             },
         };
@@ -283,7 +183,6 @@ export default {
 
     created() {
         this.initialize(this.options.page, this.options.itemsPerPage, this.sortConditions);
-        this.getCategories();
     },
 
     computed: {
@@ -293,7 +192,7 @@ export default {
                 : this.$t('products.product.formData.editProductTitle');
         },
         paginationLength() {
-            const paginationLength = Math.ceil(this.productCount / this.options.itemsPerPage);
+            const paginationLength = Math.ceil(this.categoryCount / this.options.itemsPerPage);
             return paginationLength;
         },
         currentLang() {
@@ -314,13 +213,12 @@ export default {
                 if (!this.searching) {
                     this.initialize(val, this.options.itemsPerPage, this.sortConditions);
                 } else {
-                    this.searchProduct();
+                    this.searchCategories();
                 }
             },
         },
         'options.itemsPerPage': {
             handler(val) {
-                console.log(this);
                 if (this.options.page > this.paginationLength) {
                     this.options.page = this.paginationLength; // khi so luong item moi page thay doi,
                     // neu page hien tai lon' hon so luong page
@@ -329,29 +227,7 @@ export default {
                 if (!this.searching) {
                     this.initialize(this.options.page, val, this.sortConditions);
                 } else {
-                    this.searchProduct();
-                }
-            },
-        },
-        'options.sortDesc': {
-            handler() {
-                const { sortDesc, sortBy } = this.options;
-                if (sortBy['0']) {
-                    if (!sortDesc['0']) {
-                        this.sortConditions.sortTypes = sortTypes.ASC;
-                    } else {
-                        this.sortConditions.sortTypes = sortTypes.DESC;
-                    }
-                    this.sortConditions.sortBy = sortBy['0'];
-                    if (!this.searching) {
-                        this.initialize(
-                            this.options.page,
-                            this.options.itemsPerPage,
-                            this.sortConditions,
-                        );
-                    } else {
-                        this.searchProduct();
-                    }
+                    this.searchCategories();
                 }
             },
         },
@@ -360,7 +236,7 @@ export default {
                 this.searching = false;
                 this.initialize(this.options.page, this.options.itemsPerPage, this.sortConditions);
             } else {
-                this.searchProduct();
+                this.searchCategories();
             }
         },
         currentLang() {
@@ -374,21 +250,20 @@ export default {
     methods: {
         async initialize(page, limit, sortConditions) {
             const offset = parseInt((page - 1) * limit, 10);
-            const res = await getProducts(offset, limit, sortConditions);
+            const res = await getCategories(offset, limit, sortConditions);
             if (res) {
                 res.rows.forEach((element, index) => {
                     element.index = index + 1 + offset;
                 });
-                this.products = res.rows;
-                this.productCount = res.count;
+                this.categories = res.rows;
+                this.categoryCount = res.count;
             }
         },
 
-        async searchProduct() {
+        async searchCategories() {
             const offset = parseInt((this.options.page - 1) * this.options.itemsPerPage, 10);
-            const res = await searchProduct(
+            const res = await searchCategories(
                 this.keywords,
-                this.searchCateValue,
                 this.sortConditions,
                 this.options.itemsPerPage,
                 offset,
@@ -397,43 +272,27 @@ export default {
                 res.rows.forEach((element, index) => {
                     element.index = index + 1;
                 });
-                this.products = res.rows;
-                this.productCount = res.count;
+                this.categories = res.rows;
+                this.categoryCount = res.count;
                 this.searching = true;
             }
         },
 
-        selectProductImage(e) {
-            this.editedItem.image = e;
-        },
-
-        async getCategories() {
-            const res = await getCategories();
-            if (res) {
-                this.categories = res.map((item) => ({
-                    value: item.id,
-                    text: item.categoryName,
-                }));
-                this.categories = res;
-                this.searchCateValue = res[0].id;
-            }
-        },
-
         editItem(item) {
-            this.editedIndex = this.products.indexOf(item);
+            this.editedIndex = this.categories.indexOf(item);
             this.editedItem = { ...item };
             this.originalItem = { ...item };
             this.dialog = true;
         },
 
         deleteItem(item) {
-            this.editedIndex = this.products.indexOf(item);
+            this.editedIndex = this.categories.indexOf(item);
             this.editedItem = { ...item };
             this.dialogDelete = true;
         },
 
         async deleteItemConfirm() {
-            const res = await deleteProduct(this.editedItem.id);
+            const res = await deleteCategory(this.editedItem.id);
             if (res.data) {
                 this.$swal({
                     title: 'Success',
@@ -469,20 +328,16 @@ export default {
 
         async save() {
             if (this.editedIndex > -1) {
-                if (
-                    this.originalItem.productName === this.editedItem.productName
-                    && this.originalItem.categoryId === this.editedItem.categoryId
-                ) {
+                if (this.originalItem.categoryName === this.editedItem.categoryName) {
                     this.$swal({
                         title: 'info',
                         text: 'You do not change any information',
                         icon: 'info',
                     });
                 } else {
-                    const res = await updateProduct({
+                    const res = await updateCategory({
                         id: this.editedItem?.id,
-                        categoryId: this.editedItem?.categoryId,
-                        productName: this.editedItem?.productName,
+                        categoryName: this.editedItem?.categoryName,
                     });
                     if (res.data?.result) {
                         this.$swal({
@@ -504,16 +359,10 @@ export default {
                     }
                 }
             } else {
-                const formData = new FormData();
-                formData.append('file', this.editedItem.image);
-                const ress = await testimg(formData);
-                console.log(ress);
-                const res = await createNewProduct({
-                    categoryId: this.editedItem?.categoryId,
-                    productName: this.editedItem?.productName,
-                    image: this.editedItem?.image,
+                const res = await createNewCategory({
+                    categoryName: this.editedItem?.categoryName,
                 });
-                if (res.data?.product) {
+                if (res.data?.category) {
                     this.$swal({
                         title: 'Success',
                         text: 'Product has been created successfully',

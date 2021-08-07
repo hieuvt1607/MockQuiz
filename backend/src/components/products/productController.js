@@ -79,6 +79,7 @@ export async function create(req, res) {
     try {
         const { categoryId, productName } = req.body
         const { loginUser = {} } = req
+        return console.log(req.body);
         const isCategoryExist = await checkIfCategoryExist(categoryId)
         const isProductExist = await checkIfProductExist(productName)
         if (!isCategoryExist) {
@@ -141,6 +142,17 @@ export async function deleteProduct(req, res) {
         }
         const result = await product.destroy()
         return res.json(respondSuccess({ result }));
+
+    } catch (error) {
+        return logSystemError(res, error, 'productController - deleteProduct');
+    }
+}
+
+
+export async function image(req, res) {
+    try {
+        const a = req.body
+        return res.json(respondSuccess({ a }));
 
     } catch (error) {
         return logSystemError(res, error, 'productController - deleteProduct');

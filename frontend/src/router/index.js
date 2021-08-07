@@ -8,6 +8,7 @@ import commonRouters from '../modules/common/router/common.router';
 import authRouters from '../modules/auth/router/auth.router';
 import userRouters from '../modules/user/router/user.router';
 import productRouters from '../modules/products/router/products.router';
+import categoryRouters from '../modules/categories/router/categories.router';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,7 @@ const routes = [
     ...authRouters,
     userRouters,
     productRouters,
+    categoryRouters,
 ];
 
 const router = new VueRouter({

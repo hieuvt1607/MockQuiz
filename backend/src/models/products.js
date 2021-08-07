@@ -8,6 +8,27 @@ module.exports = (sequelize, DataTypes) => {
         productName: {
             type: DataTypes.STRING
         },
+        price: {
+            type: DataTypes.FLOAT(10, 3).UNSIGNED,
+            allowNull: false,
+        },
+        descriptions: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        image: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        isAvailable: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+        },
+        numOfSold: {
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false,
+        },
         createdBy: {
             type: DataTypes.INTEGER(10).UNSIGNED,
             allowNull: true,
@@ -20,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'products',
     });
     Products.associate = function (models) {
-        Products.belongsTo(models.Categories,{
+        Products.belongsTo(models.Categories, {
             targetKey: 'id',
             foreignKey: 'categoryId',
         })

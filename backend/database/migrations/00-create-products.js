@@ -11,6 +11,12 @@ module.exports = {
             categoryId: {
                 allowNull: false,
                 type: Sequelize.INTEGER(10).UNSIGNED,
+                references: {
+                    model: 'categories', // name of Target model
+                    key: 'id', // key in Target model that we're referencing
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
             },
             productName: {
                 type: Sequelize.STRING

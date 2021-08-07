@@ -19,15 +19,16 @@ export const getProducts = async (offset, limit, sortConditions) => {
 };
 
 export const getCategories = async () => {
-    const res = await axios.get('/api/categories/get-categories');
+    const res = await axios.get('/api/categories/get-all-categories');
     if (!res) {
         console.log('error');
     }
     return res.data?.data?.listOfCate;
 };
 
-export const createNewProduct = async ({ categoryId, productName }) => {
-    const res = await axios.post('/api/products/create-new-product', { categoryId, productName });
+export const createNewProduct = async ({ categoryId, productName, image }) => {
+    console.log('service', image);
+    const res = await axios.post('/api/products/create-new-product', { categoryId, productName, image });
     if (!res) {
         console.log('error');
     }
@@ -48,4 +49,12 @@ export const deleteProduct = async (id) => {
         console.log('error');
     }
     return res.data;
+};
+
+export const testimg = async (img) => {
+    const res = await axios.post('/api/products/image', img);
+    if (!res) {
+        console.log('error');
+    }
+    return res;
 };

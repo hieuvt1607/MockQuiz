@@ -2,7 +2,7 @@
   "database": {
     "username": "root",
     "password": "root",
-    "database": "training",
+    "database": "UniversityProject",
     "host": "localhost",
     "port": 3306,
     "dialect": "mysql"
@@ -10,7 +10,7 @@
   "auth": {
     "secret_access_token": "edit this",
     "secret_refresh_access_token": "edit this",
-    "secret_access_token_expire": 10,
+    "secret_access_token_expire": 600,
     "secret_refresh_access_token_expire": 86400,
     "secret_crypto_password": "crypto_password"
   }
