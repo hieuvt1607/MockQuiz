@@ -163,6 +163,13 @@
                     </v-dialog>
                 </v-toolbar>
             </template>
+
+            <template v-slot:item.image="{item}">
+                <img
+                    :src="item.image"
+                    style="width: 50px; height: 50px"
+                >
+            </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <v-icon small class="mr-2" @click="editItem(item)">
                     mdi-pencil
@@ -206,7 +213,6 @@ import {
     updateProduct,
     deleteProduct,
     searchProduct,
-    testimg,
 } from '../services/index';
 
 export default {
@@ -233,6 +239,8 @@ export default {
                     value: 'Category.categoryName',
                     sortable: true,
                 },
+                { text: 'Image', value: 'image', sortable: false },
+
                 {
                     text: this.$t('products.product.headers[3]'),
                     value: 'actions',
@@ -271,7 +279,7 @@ export default {
             productCount: 0,
             searching: false,
             options: {
-                page: 2,
+                page: 1,
                 itemsPerPage: 10,
             },
             sortConditions: {
@@ -468,6 +476,15 @@ export default {
         },
 
         async save() {
+            const formData = {
+                file: this.editedItem.image,
+                categoryId: this.editedItem?.categoryId,
+                productName: this.editedItem?.productName,
+                price: this.editedItem.price,
+                isAvailable: this.editedItem.isAvailable,
+                descriptions: this.editedItem.descriptions,
+            };
+
             if (this.editedIndex > -1) {
                 if (
                     this.originalItem.productName === this.editedItem.productName
@@ -480,9 +497,8 @@ export default {
                     });
                 } else {
                     const res = await updateProduct({
+                        ...formData,
                         id: this.editedItem?.id,
-                        categoryId: this.editedItem?.categoryId,
-                        productName: this.editedItem?.productName,
                     });
                     if (res.data?.result) {
                         this.$swal({
@@ -504,15 +520,7 @@ export default {
                     }
                 }
             } else {
-                const formData = new FormData();
-                formData.append('file', this.editedItem.image);
-                const ress = await testimg(formData);
-                console.log(ress);
-                const res = await createNewProduct({
-                    categoryId: this.editedItem?.categoryId,
-                    productName: this.editedItem?.productName,
-                    image: this.editedItem?.image,
-                });
+                const res = await createNewProduct(formData);
                 if (res.data?.product) {
                     this.$swal({
                         title: 'Success',

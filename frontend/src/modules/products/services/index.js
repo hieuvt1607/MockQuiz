@@ -1,4 +1,5 @@
 import axios from '../../../plugins/axios';
+import { fb } from '../../../config/firebase';
 
 export const searchProduct = async (keywords, categoryId, sortConditions, limit, offset) => {
     const res = await axios.get(`/api/products/search-products/?keywords=${keywords}&categoryId=${categoryId}&sortBy=${sortConditions.sortBy}`
@@ -26,13 +27,27 @@ export const getCategories = async () => {
     return res.data?.data?.listOfCate;
 };
 
-export const createNewProduct = async ({ categoryId, productName, image }) => {
-    console.log('service', image);
-    const res = await axios.post('/api/products/create-new-product', { categoryId, productName, image });
-    if (!res) {
-        console.log('error');
+export const createNewProduct = async (formData) => {
+    const storageRef = fb.storage().ref();
+    const metadata = {
+        contentType: 'image/jpeg',
+    };
+
+    const fileRef = storageRef
+        .child(`products/${formData?.file?.name}`);
+
+    const uploadTaskSnapshot = await fileRef.put(formData.file, metadata);
+
+    const downloadURL = await uploadTaskSnapshot.ref.getDownloadURL();
+    if (downloadURL) {
+        formData.file = downloadURL;
+        const res = await axios.post('/api/products/create-new-product', formData);
+        if (!res) {
+            console.log('error');
+        }
+        return res.data;
     }
-    return res.data;
+    return null;
 };
 
 export const updateProduct = async ({ id, categoryId, productName }) => {
@@ -49,12 +64,4 @@ export const deleteProduct = async (id) => {
         console.log('error');
     }
     return res.data;
-};
-
-export const testimg = async (img) => {
-    const res = await axios.post('/api/products/image', img);
-    if (!res) {
-        console.log('error');
-    }
-    return res;
 };
