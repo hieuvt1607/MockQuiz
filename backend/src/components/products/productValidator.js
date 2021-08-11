@@ -31,6 +31,10 @@ export function createProductValidator(req, res, next) {
     const validSchema = Joi.object().keys({
         categoryId: Joi.number().integer().positive().required(),
         productName: Joi.string().max(255).required(),
+        price: Joi.number().integer().positive().required(),
+        isAvailable: Joi.boolean().required(),
+        descriptions: Joi.string().max(255).required(),
+        file: Joi.string().max(255).required(),
     });
     const result = Joi.validate(body, validSchema);
 

@@ -77,9 +77,8 @@ export async function getProductList(req, res) {
 
 export async function create(req, res) {
     try {
-        const { categoryId, productName } = req.body
+        const { categoryId, productName, price, isAvailable, descriptions, file } = req.body
         const { loginUser = {} } = req
-        return console.log(req.body);
         const isCategoryExist = await checkIfCategoryExist(categoryId)
         const isProductExist = await checkIfProductExist(productName)
         if (!isCategoryExist) {
@@ -88,10 +87,16 @@ export async function create(req, res) {
         if (isProductExist) {
             return res.json(respondWithError(ErrorCodes.ERROR_CODE_ITEM_EXIST, 'Product already exist!'));
         }
+        const numOfSold = 0;
         const product = await models.Products.create({
             categoryId,
             productName,
-            createdBy: loginUser.id
+            createdBy: loginUser.id,
+            price,
+            isAvailable,
+            descriptions,
+            image: file,
+            numOfSold,
         })
         return res.json(respondSuccess({ product }));
     } catch (error) {
@@ -149,12 +154,3 @@ export async function deleteProduct(req, res) {
 }
 
 
-export async function image(req, res) {
-    try {
-        const a = req.body
-        return res.json(respondSuccess({ a }));
-
-    } catch (error) {
-        return logSystemError(res, error, 'productController - deleteProduct');
-    }
-}
