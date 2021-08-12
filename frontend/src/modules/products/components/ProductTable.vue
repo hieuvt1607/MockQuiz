@@ -102,7 +102,6 @@
                                     <v-row>
                                         <v-col cols="12" sm="6" md="12">
                                             <v-file-input
-                                                accept="image/png, image/jpeg, image/bmp"
                                                 :placeholder="
                                                     $t(
                                                         'products.product.formData.productImagePlaceHolder',
@@ -113,6 +112,7 @@
                                                     $t('products.product.formData.productImage')
                                                 "
                                                 @change="selectProductImage"
+                                                v-model="fileInput"
                                             />
                                         </v-col>
                                     </v-row>
@@ -164,11 +164,8 @@
                 </v-toolbar>
             </template>
 
-            <template v-slot:item.image="{item}">
-                <img
-                    :src="item.image"
-                    style="width: 50px; height: 50px"
-                >
+            <template v-slot:item.image="{ item }">
+                <img :src="item.image" style="width: 50px; height: 50px">
             </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <v-icon small class="mr-2" @click="editItem(item)">
@@ -205,6 +202,7 @@
 </template>
 <script>
 import '../../../plugins/lodash';
+import { Notification } from 'element-ui';
 import { sortTypes } from '../constants/index';
 import {
     getProducts,
@@ -274,6 +272,11 @@ export default {
                     id: null,
                     categoryName: '',
                 },
+                price: null,
+                descriptions: '',
+                image: '',
+                isAvailable: null,
+                numOfSold: null,
             },
             originalItem: {},
             productCount: 0,
@@ -286,6 +289,7 @@ export default {
                 sortBy: 'productName',
                 sortTypes: 'ASC',
             },
+            fileInput: {},
         };
     },
 
@@ -412,7 +416,30 @@ export default {
         },
 
         selectProductImage(e) {
-            this.editedItem.image = e;
+            if (e) {
+                this.editedItem.image = null;
+                const file = e;
+                const MAX_SIZE = 5 * 1000 * 1000; // 5Mb
+                const allowTypes = ['image/jpeg', 'image/png'];
+                if (!allowTypes.includes(file.type)) {
+                    this.fileInput = null;
+                    Notification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'Only image format is accepted',
+                    });
+                } else if (file.size > MAX_SIZE) {
+                    this.fileInput = null;
+                    Notification({
+                        type: 'error',
+                        title: 'Error',
+                        message: 'File to large',
+                    });
+                } else {
+                    this.editedItem.image = this.fileInput;
+                }
+            }
+            console.log(this.editedItem.image);
         },
 
         async getCategories() {
@@ -465,6 +492,7 @@ export default {
                 this.editedItem = { ...this.defaultItem };
                 this.editedIndex = -1;
             });
+            this.fileInput = null;
         },
 
         closeDelete() {
