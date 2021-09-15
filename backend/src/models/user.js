@@ -20,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.ENUM('male', 'female', 'other'),
             defaultValue: 'other',
         },
+        role: {
+            allowNull: false,
+            type: DataTypes.ENUM('admin', 'user'),
+            defaultValue: 'user',
+        },
+        status: {
+            allowNull: false,
+            type: DataTypes.ENUM('active', 'inactive'),
+            defaultValue: 'active',
+          },
         createdBy: {
             type: DataTypes.INTEGER(10).UNSIGNED,
             allowNull: true,
@@ -31,8 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         tableName: 'users',
     });
-    User.associate = function (models) {
-        // define association of this model
-    };
+
     return User;
 };

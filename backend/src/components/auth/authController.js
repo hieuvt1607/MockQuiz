@@ -1,7 +1,7 @@
 import i18n from 'i18n';
 import { ErrorCodes } from '../../helpers/constants';
 import {
-    hashPassword, isValidPassword, saveToken, checkIfTokenExist, destroyToken, signToken, userAuthInfo,
+    hashPassword, isValidPassword, saveToken, checkIfTokenExist, destroyToken, signToken, userAuthInfo, checkIfUserExist,
 } from './authService';
 import { getUserDetail } from '../users/userService';
 import { respondWithError, logSystemError, respondSuccess } from '../../helpers/messageResponse';
@@ -12,7 +12,7 @@ export async function login(req, res) {
     try {
         const { email, password } = req.body;
         const user = await models.User.findOne({
-            attributes: ['id', 'email', 'fullName', 'birthday', 'phone', 'password'],
+            attributes: ['id', 'email', 'fullName', 'birthday', 'phone', 'password','role','status'],
             where: {
                 email,
             },
@@ -20,6 +20,10 @@ export async function login(req, res) {
         if (!user) {
             // return user not exist
             return res.json(respondWithError(ErrorCodes.ERROR_CODE_INVALID_USERNAME_OR_PASSWORD, i18n.__('auth.login.wrongEmailOrPassword'), {}));
+        }
+        if (user.status === 'inactive') {
+            // return user status inactive
+            return res.json(respondWithError(ErrorCodes.ERROR_CODE_UNAUTHORIZED, 'Your account has been disabled', {})); 
         }
         if (!isValidPassword(user.password, password)) {
             // return password not correct
@@ -31,6 +35,24 @@ export async function login(req, res) {
         return res.json(respondSuccess(userAuthInfo(user, token, rToken)));
     } catch (error) {
         return logSystemError(res, error, 'authController - login');
+    }
+}
+
+export async function signup(req, res) {
+    try {
+        const { email, password } = req.body;
+        const user = await checkIfUserExist(email)
+        if (user) {
+            return res.json(respondWithError(ErrorCodes.ERROR_CODE_EMAIL_EXIST, 'This email already exist!', {}));
+        }
+        const result = await models.User.create({
+            email,
+            password: hashPassword(password)
+        }) 
+        // return data
+        return res.json(respondSuccess(result));
+    } catch (error) {
+        return logSystemError(res, error, 'authController - signup');
     }
 }
 export async function logout(req, res) {
@@ -83,6 +105,29 @@ export async function getProfile(req, res) {
     }
 }
 
+export async function disableAccount(req, res) {
+    try {
+        if (req.loginUser?.role !== 'admin') {
+            return res.json(respondWithError(ErrorCodes.ERROR_CODE_UNAUTHORIZED, 'You do not have permission to perform this operation!'));
+        }
+        const { id } = req.params
+        const result = await models.User.update({
+            status : 'inactive'
+        }, {
+            where: {
+                id
+            },
+        });
+        if (result == 0) {
+            return res.json(respondWithError(ErrorCodes.ERROR_CODE_ITEM_NOT_EXIST, 'User is not exist!'));
+        }
+        return res.json(respondSuccess({}));
+
+    } catch (error) {
+        return logSystemError(res, error, 'questionController - deleteQuestion');
+    }
+}
+
 export async function updateProfile(req, res) {
     try {
         const { loginUser = {} } = req;
@@ -110,6 +155,7 @@ export async function updateProfile(req, res) {
         return logSystemError(res, error, 'authController - updateProfile');
     }
 }
+
 export async function changePassword(req, res) {
     try {
         const { loginUser = {} } = req;

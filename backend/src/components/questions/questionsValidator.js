@@ -26,10 +26,15 @@ export function paginationValidator(req, res, next) {
     next();
 }
 
-export function createCategoryValidator(req, res, next) {
+export function createQuestionValidator(req, res, next) {
     const { body } = req
     const validSchema = Joi.object().keys({
-        categoryName: Joi.string().max(255).required(),
+        question: Joi.string().max(255).required(),
+        correctAnswer: Joi.string().max(255).required(),
+        answer1: Joi.string().max(255).required(),
+        answer2: Joi.string().max(255).required(),
+        answer3: Joi.string().max(255).required(),
+        answer4: Joi.string().max(255).required(),
     });
     const result = Joi.validate(body, validSchema);
 
@@ -40,12 +45,16 @@ export function createCategoryValidator(req, res, next) {
     next();
 }
 
-export function updateProductValidator(req, res, next) {
+export function updateQuestionValidator(req, res, next) {
     const { body } = req
     const validSchema = Joi.object().keys({
         id: Joi.number().integer().positive().required(),
-        categoryId: Joi.number().integer().positive().required(),
-        productName: Joi.string().max(255).required(),
+        question: Joi.string().max(255).required(),
+        correctAnswer: Joi.string().max(255).required(),
+        answer1: Joi.string().max(255).required(),
+        answer2: Joi.string().max(255).required(),
+        answer3: Joi.string().max(255).required(),
+        answer4: Joi.string().max(255).required(),
     });
     const result = Joi.validate(body, validSchema);
 
@@ -56,7 +65,7 @@ export function updateProductValidator(req, res, next) {
     next();
 }
 
-export function deleteProductValidator(req, res, next) {
+export function deleteQuestionValidator(req, res, next) {
     const { params } = req
     const validSchema = Joi.object().keys({
         id: Joi.number().integer().positive().required(),

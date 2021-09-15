@@ -110,3 +110,19 @@ export function passwordValidator(req, res, next) {
     }
     next();
 }
+
+
+export function disableAccountValidator(req, res, next) {
+    const { params } = req
+    const validSchema = Joi.object().keys({
+        id: Joi.number().integer().positive().required(),
+    });
+    const result = Joi.validate(params, validSchema);
+
+    if (result.error) {
+        res.json(respondWithError(ErrorCodes.ERROR_CODE_INVALID_PARAMETER, result.error.message, result.error.details));
+        return;
+    }
+    next();
+}
+

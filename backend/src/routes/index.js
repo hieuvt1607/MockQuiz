@@ -1,13 +1,11 @@
 const authApiRouter = require('../components/auth');
 const userApiRouter = require('../components/users');
-const categoriesApiRouter = require('../components/categories');
-const productsApiRouter = require('../components/products');
+const questionsApiRouter = require('../components/questions');
 
 const routerManager = (app) => {
     authApiRouter(app);
     userApiRouter(app);
-    categoriesApiRouter(app);
-    productsApiRouter(app);
+    questionsApiRouter(app);
 };
 
 module.exports = routerManager;

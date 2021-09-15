@@ -67,13 +67,28 @@ export async function checkIfTokenExist(user, token, type = 'refresh_token') {
     }
 }
 
+export async function checkIfUserExist(email) {
+    try {
+        const userData = await models.UserToken.findOne({
+            attributes: ['id'],
+            where: {
+                email
+            },
+        });
+        return userData;
+    } catch (e) {
+        logger.error(`Error in checkIfUserExist ${e.message}`);
+        throw e;
+    }
+}
+
 export async function signToken(user) {
     try {
         // sign token
-        const token = jwt.sign({ id: user.id, email: user.email }, SECRET_ACCESS_TOKEN, {
+        const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_ACCESS_TOKEN, {
             expiresIn: SECRET_ACCESS_TOKEN_EXPIRE,
         });
-        const rToken = jwt.sign({ id: user.id, email: user.email }, SECRET_REFRESH_ACCESS_TOKEN, {
+        const rToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, SECRET_REFRESH_ACCESS_TOKEN, {
             expiresIn: SECRET_REFRESH_ACCESS_TOKEN_EXPIRE,
         });
         return { token, rToken };

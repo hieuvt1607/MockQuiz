@@ -1,7 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-    const Categories = sequelize.define(
-        'Categories', {
-        categoryName: {
+    const ScoreBoard = sequelize.define(
+        'ScoreBoard', {
+        userId: {
+            allowNull: false,
+            type: DataTypes.INTEGER(10).UNSIGNED,
+        },
+        score: {
             type: DataTypes.STRING
         },
         createdBy: {
@@ -13,10 +17,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
     }, {
-        tableName: 'categories',
+        tableName: 'score_board',
     });
-    Categories.associate = function (models) {
-        Categories.hasMany(models.Products)
-    };
-    return Categories;
+
+    return ScoreBoard;
 }

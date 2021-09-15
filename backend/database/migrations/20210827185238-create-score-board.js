@@ -1,29 +1,24 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('questions', {
+    return queryInterface.createTable('score_board', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER.UNSIGNED
       },
-      questions: {
-        type: Sequelize.STRING
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER(10).UNSIGNED,
+        references: {
+          model: 'users', // name of Target model
+          key: 'id', // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-      correctAnswer: {
-        type: Sequelize.STRING
-      },
-      answer1: {
-        type: Sequelize.STRING
-      },
-      answer2: {
-        type: Sequelize.STRING
-      },
-      answer3: {
-        type: Sequelize.STRING
-      },
-      answer4: {
+      score: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -45,6 +40,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('questions');
+    return queryInterface.dropTable('score_board');
   }
 };
